@@ -25,12 +25,11 @@
 		}
 		document.querySelector("output").innerHTML = '<ul>' + output.join('') + '</ul>';
 
-		for (var i = 0; i < files.length; i++) {
+		for (i = 0; i < files.length; i++) {
 			data.append("files" + i, files)
-
 		}
 		xml.open("POST", "", true);
-//		xml.setRequestHeader("Content-Type", "multipart/form-data");
+		xml.setRequestHeader("Content-Type", "multipart/form-data");
 		xml.send(data);
 	}
 
