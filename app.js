@@ -2,23 +2,32 @@ var http = require('http'),
 	fs = require('fs'),
 	express = require("express"),
 	multer = require("multer"),
-	favio = require("./libs");
+	favio = require("./libs"),
+	bodyParser = require("body-parser");
 
 var app = express(),
 	done = false,
 	port = 1337;
 
+//app.use(bodyParser.urlenconded({
+//	extended: true
+//}));
+
 app.use(multer({
 	dest: "./uploads/",
-	rename: function (fieldName, fileName) {
-		return fileName + Date.now();
+	rename: function (fieldname, filename) {
+		return filename + Date.now();
 	},
 	onFileUploadStart: function (file) {
-		console.log(file.originalname + " is starting");
+		console.log(file.originalname + ' is starting ...')
 	},
 	onFileUploadComplete: function (file) {
-		console.log(file.originalname +  " uploaded to " + file.path);
-		done = !done;
+		console.log(file.fieldname + ' uploaded to  ' + file.path)
+		done = true;
+	},
+	onError: function (error, next) {
+		console.log(error);
+		next();
 	}
 }));
 
