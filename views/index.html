@@ -16,6 +16,7 @@
 
 		var files = evt.dataTransfer.files;
 		var output = [];
+		var data = new FormData();
 
 		for (var i = 0, f; f = files[i]; i++) {
 			output.push('<li><b>', encodeURI(f.name), '</b> (', f.type || 'n/a', ') - ',
@@ -23,9 +24,14 @@
 					f.lastModifiedDate.toLocaleDateString(), '</li>');
 		}
 		document.querySelector("output").innerHTML = '<ul>' + output.join('') + '</ul>';
+
+		for (var i = 0; i < files.length; i++) {
+			data.append("files" + i, files)
+
+		}
 		xml.open("POST", "", true);
 		xml.setRequestHeader("Content-Type", "multipart/form-data");
-		xml.send(files[0]);
+		xml.send(data);
 	}
 
 	function handleDragOver(evt) {
