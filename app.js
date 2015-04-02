@@ -2,7 +2,6 @@ var http = require('http'),
 	fs = require('fs'),
 	express = require("express"),
 	multer = require("multer"),
-	favio = require("./libs"),
 	bodyParser = require("body-parser");
 
 var app = express(),
@@ -22,7 +21,7 @@ app.use(multer({
 		console.log(file.originalname + ' is starting ...')
 	},
 	onFileUploadComplete: function (file) {
-		console.log(file.fieldname + ' uploaded to  ' + file.path)
+		console.log(file.fieldname + ' uploaded to  ' + file.path);
 		done = true;
 	},
 	onError: function (error, next) {
