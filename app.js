@@ -8,6 +8,20 @@ var app = express(),
 	done = false,
 	port = 1337;
 
+app.use(multer({
+	dest: "./uploads/",
+	rename: function (fieldName, fileName) {
+		return fileName + Date.now();
+	},
+	onFileUploadStart: function (file) {
+		console.log(file.originalname + " is starting");
+	},
+	onFileUploadComplete: function (file) {
+		console.log(file.originalname +  " uploaded to " + file.path);
+		done = !done;
+	}
+}));
+
 app.get("/", function (req, res) {
 	//res.writeHead(200, {
 	//});
