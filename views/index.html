@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+<body>
+<div style="width: 100px; height: 100px; background-color: aliceblue;">Drop files here</div>
+<output id="list"></output>
+<script>
+	var xml = new XMLHttpRequest();
+
+	function handleFileSelect(evt) {
+		evt.stopPropagation();
+		evt.preventDefault();
+
+		var files = evt.dataTransfer.files;
+		var output = [];
+
+		for (var i = 0, f; f = files[i]; i++) {
+			output.push('<li><b>', encodeURI(f.name), '</b> (', f.type || 'n/a', ') - ',
+					f.size, ' bytes, last modified: ',
+					f.lastModifiedDate.toLocaleDateString(), '</li>');
+		}
+		document.querySelector("output").innerHTML = '<ul>' + output.join('') + '</ul>';
+		xml.open("POST", "", true);
+		xml.setRequestHeader("Content-Type", "multipart/form-data");
+		xml.send(files[0]);
+	}
+
+	function handleDragOver(evt) {
+		evt.stopPropagation();
+		evt.preventDefault();
+		evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+	}
+
+	// Setup the dnd listeners.
+	var dropZone = document.querySelector("div");
+	dropZone.addEventListener('dragover', handleDragOver, false);
+	dropZone.addEventListener('drop', handleFileSelect, false);
+</script>
+</body>
+</html>
