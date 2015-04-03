@@ -5,7 +5,10 @@
 	<title></title>
 </head>
 <body>
-<div style="width: 400px; height: 300px; background-color: aliceblue; border-style: dotted solid; border-right-style: dotted; border-left-style: dotted; text-align:center; display: block; font-size: 40px; line-height: 300px;">Drop files here</div>
+</form>
+<div style="width: 400px; height: 300px; background-color: aliceblue; border-style: dotted solid; border-right-style: dotted; border-left-style: dotted; text-align:center; display: block; font-size: 40px; line-height: 300px;">
+	Drop files here
+</div>
 <output id="list"></output>
 <script>
 	var xml = new XMLHttpRequest();
@@ -26,10 +29,9 @@
 		document.querySelector("output").innerHTML = '<ul>' + output.join('') + '</ul>';
 
 		for (i = 0; i < files.length; i++) {
-			data.append("files" + i, files)
+			data.append("files" + i, files[i]);
 		}
 		xml.open("POST", "", true);
-		xml.setRequestHeader("Content-Type", "multipart/form-data");
 		xml.send(data);
 	}
 

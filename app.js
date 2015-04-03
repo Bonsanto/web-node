@@ -44,6 +44,7 @@ app.get("/", function (req, res) {
 });
 
 app.post("/", function (req, res) {
+	console.log("Request on " + Date.now());
 	if (done) {
 		console.log(req.files);
 		res.end("File uploaded.");
