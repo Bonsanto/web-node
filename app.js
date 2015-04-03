@@ -1,9 +1,8 @@
 var path = require("path"),
 	fs = require('fs'),
 	express = require("express"),
-	multer = require("multer");
-
-var app = express(),
+	multer = require("multer"),
+	app = express(),
 	done = false,
 	port = 1337;
 
@@ -75,7 +74,7 @@ app.listen(port, function () {
 	console.log("Working on port " + port);
 });
 
-//app.post("/pictures/:id", function (req, res) {
+//app.get("/pics/:id", function (req, res) {
 //	console.log(req.params.id);
 //	res.sendFile(req.params.id, {
 //		root: __dirname + "/uploads/"
