@@ -1,16 +1,13 @@
-var http = require('http'),
+var path = require("path"),
 	fs = require('fs'),
 	express = require("express"),
-	multer = require("multer"),
-	bodyParser = require("body-parser");
+	multer = require("multer");
 
 var app = express(),
 	done = false,
 	port = 1337;
 
-//app.use(bodyParser.urlenconded({
-//	extended: true
-//}));
+//app.use(express.static(__dirname + "/uploads"));
 
 app.use(multer({
 	dest: "./uploads/",
@@ -31,8 +28,6 @@ app.use(multer({
 }));
 
 app.get("/", function (req, res) {
-	//res.writeHead(200, {
-	//});
 	res.sendFile("index.html", {
 		root: __dirname + "/views/"
 	}, function (error) {
@@ -44,17 +39,7 @@ app.get("/", function (req, res) {
 });
 
 app.get("/pictures/:id", function (req, res) {
-	//res.writeHead(200, {
-	//});
 	console.log(req.params.id);
-	//res.sendFile("index.html", {
-	//	root: __dirname + "/views/"
-	//}, function (error) {
-	//	if (error) {
-	//		res.status(error.status).end();
-	//		console.log(error);
-	//	}
-	//});
 	res.sendFile("index.html", {
 		root: __dirname + "/views/pictures/"
 	}, function (error) {
@@ -73,14 +58,15 @@ app.post("/", function (req, res) {
 	}
 });
 
-app.post("/pictures/:id", function (req, res) {
-	console.log(req.params.id);
-	res.sendFile(req.params.id, {
-		root: __dirname + "/uploads/"
-	}, function (error) {
-		if (error) {
-			res.status(error.status).end();
-			console.log(error);
+app.get("/pics/:id", function (req, res) {
+	fs.readFile(path.join(__dirname + "/uploads/" + req.params.id), function (err, data) {
+		if (err) {
+			console.log(err);
+			res.end("File not found");
+		} else {
+			console.log("received data ");
+			res.write(data);
+			res.end();
 		}
 	});
 });
@@ -89,23 +75,14 @@ app.listen(port, function () {
 	console.log("Working on port " + port);
 });
 
-/**
- * res.writeHead(200, {'Content-Type': 'text/html'});
- * res.write('<html><body><img src="data:image/jpeg;base64,')
- * res.write(new Buffer(data).toString('base64'));
- * res.end('"/></body></html>');
- * */
-
-/**
- fs.readFile('image.jpg', function (err, data) {
-	if (err) throw err; // Fail if the file can't be read.
-	http.createServer(function (req, res) {
-		favio("Favio");
-		res.writeHead(200, {
-			'Content-Type': 'image/jpeg'
-		});
-		res.end(data); // Send the file data to the browser.
-	}).listen(1337);
-	console.log('Server running at http://localhost:8124/');
-});
- **/
+//app.post("/pictures/:id", function (req, res) {
+//	console.log(req.params.id);
+//	res.sendFile(req.params.id, {
+//		root: __dirname + "/uploads/"
+//	}, function (error) {
+//		if (error) {
+//			res.status(error.status).end();
+//			console.log(error);
+//		}
+//	});
+//});

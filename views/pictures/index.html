@@ -4,22 +4,19 @@
 	<meta charset="UTF-8">
 	<title></title>
 </head>
-<body>
-<h1>MENSAJE</h1>
-<canvas style="width: 800px;height: 800px;background-color: aliceblue">
-
+<body style="background-color: #333333">
+<canvas style="background-color: aliceblue">
 </canvas>
 <script>
-	var img;
+	var img = document.createElement("img");
 	var xhr = new XMLHttpRequest();
-	//	xhr.open("POST", "", true); //todo: ruta
-	xhr.open("POST", window.location.toString(), true); //todo: ruta
-	xhr.send();
-	xhr.onreadystatechange = function (ev) {
-		if (xhr.status === 200 && xhr.readyState === 4) {
-			img = xhr.response;
-		}
-	}
+	img.src = "http://localhost:1337/pics/" + window.location.pathname.split("/")[2];
+	img.onload = function (event) {
+		var canvas = document.querySelector("canvas");
+		canvas.width = img.width;
+		canvas.height = img.height;
+		canvas.getContext("2d").drawImage(img, 0, 0);
+	};
 </script>
 </body>
 </html>
