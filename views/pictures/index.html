@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+<body>
+<h1>MENSAJE</h1>
+<canvas style="width: 800px;height: 800px;background-color: aliceblue">
+
+</canvas>
+<script>
+	var img;
+	var xhr = new XMLHttpRequest();
+	//	xhr.open("POST", "", true); //todo: ruta
+	xhr.open("POST", window.location.toString(), true); //todo: ruta
+	xhr.send();
+	xhr.onreadystatechange = function (ev) {
+		if (xhr.status === 200 && xhr.readyState === 4) {
+			img = xhr.response;
+		}
+	}
+</script>
+</body>
+</html>

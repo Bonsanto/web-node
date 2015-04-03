@@ -15,7 +15,7 @@ var app = express(),
 app.use(multer({
 	dest: "./uploads/",
 	rename: function (fieldname, filename) {
-		return filename + Date.now();
+		return filename;
 	},
 	onFileUploadStart: function (file) {
 		console.log(file.originalname + ' is starting ...')
@@ -43,12 +43,46 @@ app.get("/", function (req, res) {
 	});
 });
 
+app.get("/pictures/:id", function (req, res) {
+	//res.writeHead(200, {
+	//});
+	console.log(req.params.id);
+	//res.sendFile("index.html", {
+	//	root: __dirname + "/views/"
+	//}, function (error) {
+	//	if (error) {
+	//		res.status(error.status).end();
+	//		console.log(error);
+	//	}
+	//});
+	res.sendFile("index.html", {
+		root: __dirname + "/views/pictures/"
+	}, function (error) {
+		if (error) {
+			res.status(error.status).end();
+			console.log(error);
+		}
+	});
+});
+
 app.post("/", function (req, res) {
 	console.log("Request on " + Date.now());
 	if (done) {
 		console.log(req.files);
 		res.end("File uploaded.");
 	}
+});
+
+app.post("/pictures/:id", function (req, res) {
+	console.log(req.params.id);
+	res.sendFile(req.params.id, {
+		root: __dirname + "/uploads/"
+	}, function (error) {
+		if (error) {
+			res.status(error.status).end();
+			console.log(error);
+		}
+	});
 });
 
 app.listen(port, function () {
