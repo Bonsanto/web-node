@@ -50,7 +50,7 @@ app.get("/pictures/:id", function (req, res) {
 });
 
 app.post("/", function (req, res) {
-	console.log("Request on " + Date.now());
+	console.log("Request on " + new Date());
 	if (done) {
 		console.log(req.files);
 		res.end("File uploaded.");
