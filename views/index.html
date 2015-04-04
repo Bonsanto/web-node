@@ -34,7 +34,7 @@
 		xml.open("POST", "", true);
 		xml.send(data);
 		xml.onreadystatechange = function () {
-			if (xml.status === 200 && xml.readyState === 4) {
+			if (xml.status === 200 && xml.readyState === 4 && xml.response) {
 				window.location = "http://localhost:1337/pictures/" + files[0].name;
 			}
 		};

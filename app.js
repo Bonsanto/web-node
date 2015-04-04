@@ -50,11 +50,13 @@ app.get("/pictures/:id", function (req, res) {
 });
 
 app.post("/", function (req, res) {
+	var msg = {
+		status: false
+	};
+
 	console.log("Request on " + new Date());
-	if (done) {
-		console.log(req.files);
-		res.end("File uploaded.");
-	}
+	if (done) msg.status = true;
+	res.json(msg);
 });
 
 app.get("/pics/:id", function (req, res) {
