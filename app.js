@@ -2,11 +2,18 @@ var path = require("path"),
 	fs = require('fs'),
 	express = require("express"),
 	multer = require("multer"),
+	pg = require("pg"),
 	app = express(),
 	done = false,
 	port = 1337;
 
-//app.use(express.static(__dirname + "/uploads"));
+const DB_USER_NAME = "postgres",
+	DB_PWD = "masterkey",
+	DB_IP = "localhost",
+	DB_PORT = "5432",
+	DB_NAME = "uploads";
+var CONNECT_STRING = "postgres" + "://" + DB_USER_NAME + ":" + DB_PWD + "@" + DB_IP + ":" + DB_PORT + "/" + DB_NAME;
+
 
 app.use(multer({
 	dest: "./uploads/",
@@ -23,7 +30,8 @@ app.use(multer({
 	onError: function (error, next) {
 		console.log(error);
 		next();
-	}
+	},
+	inMemory: true
 }));
 
 app.get("/", function (req, res) {
@@ -55,21 +63,43 @@ app.post("/", function (req, res) {
 	};
 
 	console.log("Request on " + new Date());
-	if (done) msg.status = true;
-	res.json(msg);
+	if (done) {
+		////var client = new pg.Client(CONNECT_STRING);
+		//
+		//pg.connect(CONNECT_STRING, function (error, client, done) {
+		//	if (error) {
+		//		return console.log("Error fetching the pool from", CONNECT_STRING, error);
+		//	}
+		//	client.query("SELECT $1::oid FROM pokemon", ["1"], function (error, result) {
+		//		done();
+		//
+		//		if (error) {
+		//			return console.log("Error running query", error);
+		//		}
+		//		console.log(result.rows[0]);
+		//		client.end();
+		//	});
+		//});
+		//
+		msg.status = true;
+	}
+	//res.json(msg);
+	res.set('Content-Type','application/json');
+	res.send(msg);
 });
 
 app.get("/pics/:id", function (req, res) {
-	fs.readFile(path.join(__dirname + "/uploads/" + req.params.id), function (err, data) {
-		if (err) {
-			console.log(err);
-			res.end("File not found");
-		} else {
-			console.log("received data ");
-			res.write(data);
-			res.end();
-		}
-	});
+	fs.readFile(path.join(__dirname + "/uploads/" + req.params.id),
+		function (err, data) {
+			if (err) {
+				console.log(err);
+				res.end("File not found");
+			} else {
+				console.log("received data ");
+				res.write(data);
+				res.end();
+			}
+		});
 });
 
 app.listen(port, function () {

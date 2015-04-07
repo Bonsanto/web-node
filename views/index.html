@@ -50,7 +50,7 @@
 		xml.open("POST", "", true);
 		xml.send(data);
 		xml.onreadystatechange = function () {
-			if (xml.status === 200 && xml.readyState === 4 && xml.response) {
+			if (xml.status === 200 && xml.readyState === 4 && (JSON.parse(xml.responseText)).status) {
 				var fileNames = "";
 				for (var i = 0; i < files.length; i++) {
 					fileNames += files[i].name;

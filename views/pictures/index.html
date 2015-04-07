@@ -6,28 +6,38 @@
 </head>
 <body style="background-color: #333333">
 <style type="text/css">
-	/*canvas {*/
-		/*text-align: center;*/
+	table {
+		margin-left: auto;
+		margin-right: auto;
+		/*margin-bottom: auto;*/
+		/*margin-top: auto;*/
+	}
+
+	tr {
+		text-align: center;
 		/*position: absolute;*/
-		/*margin: auto;*/
-		/*top: 0;*/
-		/*right: 0;*/
-		/*bottom: 0;*/
-		/*left: 0;*/
-	/*}*/
+		margin: auto;
+		right: 0;
+		left: 0;
+
+	}
 </style>
 <script>
 	var urls = window.location.pathname.split("/")[2].split("&");
+	var table = document.createElement("table");
+	document.body.appendChild(table);
 
-	urls.forEach(function (element, index, array) {
+	urls.forEach(function (element) {
 		var img = document.createElement("img");
+		var tr = document.createElement("tr");
 		img.src = "http://localhost:1337/pics/" + element;
 		img.onload = function () {
 			var canvas = document.createElement("canvas");
 			canvas.width = img.width;
 			canvas.height = img.height;
 			canvas.getContext("2d").drawImage(img, 0, 0);
-			document.body.appendChild(canvas);
+			tr.appendChild(canvas);
+			table.appendChild(tr);
 		}
 	});
 </script>
