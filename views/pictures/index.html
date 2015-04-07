@@ -5,24 +5,31 @@
 	<title></title>
 </head>
 <body style="background-color: #333333">
-<canvas style="text-align: center;
-    position: absolute;
-    margin: auto;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;">
-</canvas>
+<style type="text/css">
+	/*canvas {*/
+		/*text-align: center;*/
+		/*position: absolute;*/
+		/*margin: auto;*/
+		/*top: 0;*/
+		/*right: 0;*/
+		/*bottom: 0;*/
+		/*left: 0;*/
+	/*}*/
+</style>
 <script>
-	var img = document.createElement("img");
-	var xhr = new XMLHttpRequest();
-	img.src = "http://localhost:1337/pics/" + window.location.pathname.split("/")[2];
-	img.onload = function (event) {
-		var canvas = document.querySelector("canvas");
-		canvas.width = img.width;
-		canvas.height = img.height;
-		canvas.getContext("2d").drawImage(img, 0, 0);
-	};
+	var urls = window.location.pathname.split("/")[2].split("&");
+
+	urls.forEach(function (element, index, array) {
+		var img = document.createElement("img");
+		img.src = "http://localhost:1337/pics/" + element;
+		img.onload = function () {
+			var canvas = document.createElement("canvas");
+			canvas.width = img.width;
+			canvas.height = img.height;
+			canvas.getContext("2d").drawImage(img, 0, 0);
+			document.body.appendChild(canvas);
+		}
+	});
 </script>
 </body>
 </html>

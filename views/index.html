@@ -35,9 +35,15 @@
 		xml.send(data);
 		xml.onreadystatechange = function () {
 			if (xml.status === 200 && xml.readyState === 4 && xml.response) {
-				window.location = "http://localhost:1337/pictures/" + files[0].name;
+				var fileNames = "";
+				for (var i = 0; i < files.length; i++) {
+					fileNames += files[i].name;
+					if (i !== files.length - 1) fileNames += "&";
+				}
+				window.location = "http://localhost:1337/pictures/" + fileNames;
 			}
-		};
+		}
+		;
 	}
 
 	function handleDragOver(evt) {
