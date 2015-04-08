@@ -9,7 +9,7 @@ var path = require("path"),
 
 //app.use(express.static(__dirname + "/uploads"));
 
-app.use(multer({
+var multipart = multer({
 	dest: "./uploads/",
 	rename: function (fieldname, filename) {
 		return filename;
@@ -25,7 +25,7 @@ app.use(multer({
 		console.log(error);
 		next();
 	}
-}));
+});
 
 app.get("/", function (req, res) {
 	res.sendFile("index.html", {
@@ -50,21 +50,22 @@ app.get("/pictures/:id", function (req, res) {
 	});
 });
 
-app.post("/", function (req, res) {
+app.post("/", multipart, function (req, res) {
 	var msg = {
 		status: false
 	};
 
 	console.log("Request on " + new Date());
 	if (done) msg.status = true;
-	res.json(msg);
+	res.set("Content-Type", "application/json");
+	res.send(msg);
 });
 
 app.get("/pics/:id", function (req, res) {
 	fs.readFile(path.join(__dirname + "/uploads/" + req.params.id), function (err, data) {
 		if (err || !type.isAllowed(req.params.id)) {
 			console.log(err);
-			res.send("File not found");
+			res.status(404).send(err ? "File not found" : "Format not supported");
 		} else {
 			res.set("Content-Type", "img/" + type.typeparser(req.params.id));
 			res.send(data);
