@@ -83,7 +83,7 @@ app.post("/", function (req, res) {
 		//
 		msg.status = true;
 	}
-	//res.json(msg);
+	//You can use res.json(msg); intead of these two lines.
 	res.set('Content-Type','application/json');
 	res.send(msg);
 });
