@@ -2,6 +2,7 @@ var path = require("path"),
 	fs = require('fs'),
 	express = require("express"),
 	multer = require("multer"),
+	type = require("./libs/img-type"),
 	app = express(),
 	done = false,
 	port = 1337;
@@ -61,13 +62,12 @@ app.post("/", function (req, res) {
 
 app.get("/pics/:id", function (req, res) {
 	fs.readFile(path.join(__dirname + "/uploads/" + req.params.id), function (err, data) {
-		if (err) {
+		if (err || !type.isAllowed(req.params.id)) {
 			console.log(err);
-			res.end("File not found");
+			res.send("File not found");
 		} else {
-			console.log("received data ");
-			res.write(data);
-			res.end();
+			res.set("Content-Type", "img/" + type.typeparser(req.params.id));
+			res.send(data);
 		}
 	});
 });
