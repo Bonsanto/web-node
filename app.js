@@ -128,7 +128,7 @@ app.get("/pics/:id", function (req, res) {
 
 				query.on("end", function (result) {
 					if (result.rows.length < 1) {
-						console.log("File Not Found", err);
+						console.log("Not stored in the DB", err);
 						res.status(404).send("Not Found");
 					} else {
 						res.set("Content-Type", "img/" + type.typeparser(req.params.id));
