@@ -56,7 +56,7 @@
 					fileNames += files[i].name;
 					if (i !== files.length - 1) fileNames += "&";
 				}
-				window.location = "http://localhost:1337/pictures/" + fileNames;
+				window.location = window.location.origin + "/pictures/" + fileNames;
 			}
 		}
 		;
